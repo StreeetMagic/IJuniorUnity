@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace _01_Default.Gameplay.Bots
+namespace Gameplay.Bots
 {
     internal class BotMover : MonoBehaviour
     {

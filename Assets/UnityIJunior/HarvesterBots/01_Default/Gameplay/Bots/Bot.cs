@@ -1,8 +1,8 @@
-﻿using _01_Default.Gameplay.Bases;
-using _01_Default.Gameplay.Resourcess;
+﻿using Gameplay.Bases;
+using Gameplay.Resourcess;
 using UnityEngine;
 
-namespace _01_Default.Gameplay.Bots
+namespace Gameplay.Bots
 {
     public class Bot : MonoBehaviour
     {

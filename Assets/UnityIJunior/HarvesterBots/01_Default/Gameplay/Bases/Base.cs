@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using _01_Default.Gameplay.Bots;
-using _01_Default.Gameplay.Resourcess;
-using _01_Default.Gameplay.Scanners;
+using Gameplay.Bots;
+using Gameplay.Resourcess;
+using Gameplay.Scanners;
 using UnityEngine;
 
-namespace _01_Default.Gameplay.Bases
+namespace Gameplay.Bases
 {
     public class Base : MonoBehaviour
     {
