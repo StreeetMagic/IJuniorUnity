@@ -12,15 +12,11 @@ namespace _01_Default.Gameplay.Bots
 
         private Coroutine _movingCoroutine;
 
-        private void Start()
-        {
+        private void Start() =>
             _spawnPosition.transform.parent = null;
-        }
-        
-        public void Move()
-        {
+
+        public void MoveToSpawnPosition() =>
             Move(_spawnPosition);
-        }
 
         public void Move(Transform position)
         {
@@ -34,7 +30,7 @@ namespace _01_Default.Gameplay.Bots
         {
             float tolerance = 0.1f;
 
-            while (IsAway(targetTransform.position, tolerance))
+            while (IsAway(targetTransform.position, tolerance, transform.position))
             {
                 Vector3 position = targetTransform.position;
 
@@ -61,8 +57,7 @@ namespace _01_Default.Gameplay.Bots
         private void RotateToPosition(Vector3 targetTransformPosition) =>
             transform.LookAt(new Vector3(targetTransformPosition.x, 0, targetTransformPosition.z));
 
-        private bool IsAway(Vector3 position, float tolerance) =>
-            Math.Abs(transform.position.x - position.x) > tolerance
-            || Math.Abs(transform.position.z - position.z) > tolerance;
+        private bool IsAway(Vector3 position, float tolerance, Vector3 transformPosition) =>
+            Math.Abs(transformPosition.x - position.x) > tolerance || Math.Abs(transformPosition.z - position.z) > tolerance;
     }
 }
