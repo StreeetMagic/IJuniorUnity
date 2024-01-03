@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Gameplay.Bots;
 using Gameplay.Resourcess;
@@ -12,8 +13,15 @@ namespace Gameplay.Bases
         [SerializeField] private Scanner _scanner;
         [SerializeField] private List<Bot> _bots;
 
+        private readonly int _resourceCost = 10;
         private readonly List<Resource> _targets = new();
         private readonly List<Resource> _resources = new();
+
+        public event Action<int> ResourceCountChanged;
+        public event Action<int> GoldCountChanged;
+
+        public int ResourcesCount => _resources.Count;
+        public int Gold { get; private set; }
 
         private void OnEnable() =>
             _scanner.Scanned += OnScanned;
@@ -48,12 +56,31 @@ namespace Gameplay.Bases
         public void AddResource(Resource resource)
         {
             _resources.Add(resource);
+            ResourceCountChanged?.Invoke(_resources.Count);
             Transform resourceTransform = resource.transform;
             Transform myTransform = transform;
             resourceTransform.parent = myTransform;
             Vector3 position = myTransform.position;
             resourceTransform.position = new Vector3(position.x, 8, position.z);
             resource.GetComponent<Rigidbody>().useGravity = true;
+        }
+
+        public void SellResources()
+        {
+            if (_resources.Count > 0)
+            {
+                Gold += _resourceCost * _resources.Count;
+                GoldCountChanged?.Invoke(Gold);
+
+                foreach (Resource resource in _resources)
+                {
+                    Destroy(resource.gameObject);
+                }
+
+                _resources.Clear();
+
+                ResourceCountChanged?.Invoke(_resources.Count);
+            }
         }
     }
 }
