@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2545132372146085516}
   - component: {fileID: 212917328204162349}
   - component: {fileID: 7034207794274359973}
-  m_Layer: 0
+  - component: {fileID: 1115777707634428445}
+  m_Layer: 3
   m_Name: Bot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,6 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2602908537532752055}
+  - {fileID: 7446620058341413211}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2545132372146085516
@@ -101,7 +103,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 10
-  _controller: {fileID: 0}
+  _controller: {fileID: 212917328204162349}
+  _spawnPosition: {fileID: 7446620058341413211}
+--- !u!135 &1115777707634428445
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820725947985531644}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.5
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1893477384984007747
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,7 +137,7 @@ GameObject:
   - component: {fileID: 12246796136322589}
   - component: {fileID: 4675242028078225545}
   - component: {fileID: 9147055021471717545}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +220,7 @@ GameObject:
   - component: {fileID: 6489773651107079724}
   - component: {fileID: 4738421395399388296}
   - component: {fileID: 4384826644938347819}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wheel (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +303,7 @@ GameObject:
   - component: {fileID: 1651001207422569741}
   - component: {fileID: 2585223950679232973}
   - component: {fileID: 3991513039800582578}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -362,7 +386,7 @@ GameObject:
   - component: {fileID: 7986698719389293662}
   - component: {fileID: 4639348889715902885}
   - component: {fileID: 9022072010774381477}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,6 +458,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7455516883002908953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7446620058341413211}
+  m_Layer: 0
+  m_Name: spawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7446620058341413211
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455516883002908953}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6568545852527986602}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8960440204743078147
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,7 +500,7 @@ GameObject:
   - component: {fileID: 5312264936821247406}
   - component: {fileID: 5517996366501011981}
   - component: {fileID: 4584698023191164904}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -526,7 +581,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2602908537532752055}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}

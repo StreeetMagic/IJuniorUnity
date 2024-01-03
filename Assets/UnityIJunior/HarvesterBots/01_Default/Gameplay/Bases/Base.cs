@@ -13,6 +13,7 @@ namespace _01_Default.Gameplay.Bases
         [SerializeField] private Scaner _scaner;
         [SerializeField] private List<Bot> _bots;
 
+        private List<Resource> _targets = new();
         private List<Resource> _resources = new();
 
         private void OnEnable()
@@ -32,24 +33,24 @@ namespace _01_Default.Gameplay.Bases
 
         private void SetTargets()
         {
-            List<Bot> freeBots = _bots
-                .Where(bot => bot.IsBusy == false)
-                .ToList();
+            List<Bot> freeBots = _bots.Where(bot => bot.IsBusy == false).ToList();
 
-            foreach (Bot bot in freeBots)
-            {
-                if (_resources.Count == 0)
-                    break;
+            if (freeBots.Count == 0)
+                return;
 
-                Resource resource = _resources[0];
+            Bot freeBot = freeBots[0];
 
-                if (resource.IsMarked == false)
-                {
-                    resource.Mark();
-                    bot.SetTarget(resource);
-                    _resources.Remove(resource);
-                }
-            }
+            if (_targets.Count <= 0)
+                return;
+
+            Resource resource = _targets[0];
+
+            if (resource.IsMarked)
+                return;
+
+            freeBot.SetTarget(resource);
+            resource.Mark();
+            _targets.Remove(resource);
         }
 
         private void OnScanned(List<Resource> resources)
@@ -60,9 +61,19 @@ namespace _01_Default.Gameplay.Bases
         private void AddResources(List<Resource> resources)
         {
             foreach (Resource resource in resources
-                         .Where(resource => _resources.Contains(resource) == false)
-                         .Where(resource => resource.IsHarvested == false))
-                _resources.Add(resource);
+                         .Where(resource => _targets.Contains(resource) == false)
+                         .Where(resource => resource.IsHarvested == false)
+                         .Where(resource => resource.IsMarked == false))
+                _targets.Add(resource);
+        }
+
+        public void AddResource(Resource resource)
+        {
+            _resources.Add(resource);
+
+            resource.transform.parent = transform;
+            resource.transform.position = new Vector3(transform.position.x, 8, transform.position.z);
+            resource.GetComponent<Rigidbody>().useGravity = true;
         }
     }
 }
