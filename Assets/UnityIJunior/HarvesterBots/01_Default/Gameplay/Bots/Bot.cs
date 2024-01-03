@@ -1,16 +1,21 @@
-﻿using Gameplay.Bases;
-using Gameplay.Resourcess;
+﻿using _01_Default.Gameplay.Bases;
+using _01_Default.Gameplay.Resourcess;
 using UnityEngine;
 
-namespace Gameplay.Bots
+namespace _01_Default.Gameplay.Bots
 {
+    [RequireComponent(typeof(BotMover))]
     public class Bot : MonoBehaviour
     {
-        [SerializeField] private BotMover _botMover;
-
+        private BotMover _botMover;
         private Resource _target;
-
+        
         public bool IsBusy { get; private set; }
+
+        private void Awake()
+        {
+            _botMover = GetComponent<BotMover>(); 
+        }
 
         private void OnTriggerEnter(Collider otherCollider)
         {

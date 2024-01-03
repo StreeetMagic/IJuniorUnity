@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Gameplay.Resourcess;
+using _01_Default.Gameplay.Resourcess;
 using UnityEngine;
 
-namespace Gameplay.Scanners
+namespace _01_Default.Gameplay.Scanners
 {
     public class Scanner : MonoBehaviour
     {

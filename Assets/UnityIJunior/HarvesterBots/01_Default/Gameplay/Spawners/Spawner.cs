@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Gameplay.Resourcess;
+using _01_Default.Gameplay.Resourcess;
 using UnityEngine;
 
-namespace Gameplay.Spawners
+namespace _01_Default.Gameplay.Spawners
 {
     public class Spawner : MonoBehaviour
     {

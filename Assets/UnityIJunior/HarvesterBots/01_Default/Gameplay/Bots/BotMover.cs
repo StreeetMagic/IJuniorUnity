@@ -2,15 +2,19 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Gameplay.Bots
+namespace _01_Default.Gameplay.Bots
 {
+    [RequireComponent(typeof(CharacterController))]
     internal class BotMover : MonoBehaviour
     {
         [SerializeField] private float _moveSpeed = 10f;
-        [SerializeField] private CharacterController _controller;
         [SerializeField] private Transform _spawnPosition;
 
+        private CharacterController _controller;
         private Coroutine _movingCoroutine;
+        
+        private void Awake() =>
+            _controller = GetComponent<CharacterController>();
 
         private void Start() =>
             _spawnPosition.transform.parent = null;

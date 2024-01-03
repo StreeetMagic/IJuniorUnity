@@ -1,9 +1,9 @@
-﻿using Gameplay.Bases;
+﻿using _01_Default.Gameplay.Bases;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UserInterfaces
+namespace _01_Default.UserInterfaces
 {
     public class UserInterface : MonoBehaviour
     {
