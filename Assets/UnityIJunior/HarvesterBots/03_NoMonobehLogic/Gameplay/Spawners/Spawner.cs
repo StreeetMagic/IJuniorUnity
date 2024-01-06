@@ -34,6 +34,8 @@ namespace _03_NoMonobehLogic.Gameplay.Spawners
                 yield return _waitForSeconds;
 
                 GameObject resource = Object.Instantiate(_resourcePrefab, _spawnPoints[Random.Range(0, _spawnPoints.Count)], Quaternion.identity);
+                Resource resource1 = new Resource(resource);
+                resource.GetComponent<ResourceView>().Resource = resource1;
                 resource.transform.parent = _gameObject.transform;
             }
         }

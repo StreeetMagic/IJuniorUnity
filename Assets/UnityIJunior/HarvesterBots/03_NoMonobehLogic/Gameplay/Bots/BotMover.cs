@@ -6,14 +6,22 @@ namespace _03_NoMonobehLogic.Gameplay.Bots
 {
     internal class BotMover
     {
-        private float _moveSpeed = 10f;
-        private CharacterController _controller;
-        private Transform _spawnPosition;
+        private readonly GameObject _gameObject;
+        private readonly float _moveSpeed = 10f;
+        private readonly CharacterController _controller;
+        private readonly Transform _spawnPosition;
+        private readonly MonoBehaviour _coroutineRunner;
 
         private Coroutine _movingCoroutine;
 
-        private void Start() =>
-            _spawnPosition.transform.parent = null;
+        public BotMover(MonoBehaviour coroutineRunner, GameObject gameObject, Transform spawnPosition, CharacterController controller)
+        {
+            _coroutineRunner = coroutineRunner;
+            _gameObject = gameObject;
+            _spawnPosition = spawnPosition;
+            _controller = controller;
+            _gameObject.transform.parent = null;
+        }
 
         public void MoveToSpawnPosition() =>
             Move(_spawnPosition);
@@ -21,22 +29,24 @@ namespace _03_NoMonobehLogic.Gameplay.Bots
         public void Move(Transform position)
         {
             if (_movingCoroutine != null)
-                StopCoroutine(_movingCoroutine);
+                _coroutineRunner.StopCoroutine(_movingCoroutine);
 
-            _movingCoroutine = StartCoroutine(Moving(position));
+            _movingCoroutine = _coroutineRunner.StartCoroutine(Moving(position));
+            
+            Debug.Log("Я поехал");
         }
 
         private IEnumerator Moving(Transform targetTransform)
         {
             float tolerance = 0.1f;
 
-            while (IsAway(targetTransform.position, tolerance, transform.position))
+            while (IsAway(targetTransform.position, tolerance, _gameObject.transform.position))
             {
                 Vector3 position = targetTransform.position;
 
                 Vector3 targetTransformPosition = new(position.x, 0, position.z);
 
-                _controller.Move((targetTransformPosition - transform.position).normalized * (Time.deltaTime * _moveSpeed));
+                _controller.Move((targetTransformPosition - _gameObject.transform.position).normalized * (Time.deltaTime * _moveSpeed));
 
                 Transform transform1 = _controller.transform;
                 Vector3 position1 = transform1.position;
@@ -49,13 +59,13 @@ namespace _03_NoMonobehLogic.Gameplay.Bots
                 yield return null;
             }
 
-            StopCoroutine(_movingCoroutine);
+            _coroutineRunner.StopCoroutine(_movingCoroutine);
 
             _movingCoroutine = null;
         }
 
         private void RotateToPosition(Vector3 targetTransformPosition) =>
-            transform.LookAt(new Vector3(targetTransformPosition.x, 0, targetTransformPosition.z));
+            _gameObject.transform.LookAt(new Vector3(targetTransformPosition.x, 0, targetTransformPosition.z));
 
         private bool IsAway(Vector3 position, float tolerance, Vector3 transformPosition) =>
             Math.Abs(transformPosition.x - position.x) > tolerance || Math.Abs(transformPosition.z - position.z) > tolerance;

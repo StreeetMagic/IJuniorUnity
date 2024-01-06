@@ -14,7 +14,7 @@ namespace _03_NoMonobehLogic.Gameplay.Scanners
         private readonly float _radius = 100f;
 
         public event Action<List<Resource>> Scanned;
-        
+
         public Scanner(GameObject gameObject)
         {
             _gameObject = gameObject;
@@ -22,18 +22,20 @@ namespace _03_NoMonobehLogic.Gameplay.Scanners
 
         public void Launch(MonoBehaviour coroutineRunner)
         {
-            coroutineRunner.StartCoroutine(Scanning(new List<Resource>()));
+            coroutineRunner.StartCoroutine(Scanning());
         }
 
-        private IEnumerator Scanning(List<Resource> resources)
+        private IEnumerator Scanning()
         {
             while (_isScanning)
             {
-                yield return _waitForSeconds;
+                List<Resource> resources = new();
 
+                yield return _waitForSeconds;
+                
                 foreach (Collider collider1 in Physics.OverlapSphere(_gameObject.transform.position, _radius))
-                    if (collider1.TryGetComponent(out Resource resource))
-                        resources.Add(resource);
+                    if (collider1.TryGetComponent(out ResourceView view))
+                        resources.Add(view.Resource);
 
                 Scanned?.Invoke(resources);
             }

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using _03_NoMonobehLogic.Gameplay.Bots;
 using _03_NoMonobehLogic.Gameplay.Games;
 using UnityEngine;
 
-namespace _03_NoMonobehLogic.Gameplay.GameFactories
+namespace _03_NoMonobehLogic.Gameplay.Bootstraps
 {
     public class Bootstrap : MonoBehaviour
     {

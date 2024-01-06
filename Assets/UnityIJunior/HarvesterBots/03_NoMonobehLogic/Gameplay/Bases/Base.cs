@@ -24,47 +24,61 @@ namespace _03_NoMonobehLogic.Gameplay.Bases
         public int ResourcesCount => _resources.Count;
         public int Gold { get; private set; }
 
-        public Base(Scanner scanner, List<Bot> bots)
+        public Base(Scanner scanner, List<Bot> bots, GameObject gameObject)
         {
             _scanner = scanner;
             _bots = bots;
+            _gameObject = gameObject;
             _scanner.Scanned += OnScanned;
+            Debug.Log("подписался");
         }
 
-        private void Update() =>
+        public void Update()
+        {
             SetTargets(_bots
                 .Where(bot => bot.IsBusy == false)
-                .Where(_ => _targets.Count > 0));
+                .Where(_ => _targets.Count > 0)
+                .ToList());
+        }
 
-        private void SetTargets(IEnumerable<Bot> enumerable)
+        private void SetTargets(List<Bot> bots)
         {
-            foreach (Bot bot in enumerable)
+            foreach (Bot bot in bots)
             {
+                Debug.Log("Ставлю цель боту");
                 bot.SetTarget(_targets[0]);
                 _targets[0].Mark();
                 _targets.RemoveAt(0);
+
+                if (_targets.Count == 0)
+                    break;
             }
         }
 
-        private void OnScanned(List<Resource> resources) =>
-            AddResources(resources);
+        private void OnScanned(List<Resource> scannedResources)
+        {
+            Debug.Log("Обрабатываю скан");
+            AddResourcesToHarvest(scannedResources);
+        }
 
-        private void AddResources(List<Resource> resources) =>
-            _targets.AddRange(resources
+        private void AddResourcesToHarvest(List<Resource> scannedResources)
+        {
+            _targets.AddRange(scannedResources
                 .Where(resource => _targets.Contains(resource) == false
                                    && resource.IsHarvested == false
                                    && resource.IsMarked == false));
+        }
 
         public void AddResource(Resource resource)
         {
             _resources.Add(resource);
             ResourceCountChanged?.Invoke(_resources.Count);
-            Transform resourceTransform = resource.transform;
+            Transform resourceTransform = resource.Transform;
             Transform myTransform = _gameObject.transform;
             resourceTransform.parent = myTransform;
             Vector3 position = myTransform.position;
             resourceTransform.position = new Vector3(position.x, 8, position.z);
-            resource.GetComponent<Rigidbody>().useGravity = true;
+            resource.Rigidbody.useGravity = true;
         }
 
         public void SellResources()
@@ -76,7 +90,7 @@ namespace _03_NoMonobehLogic.Gameplay.Bases
 
                 foreach (Resource resource in _resources)
                 {
-                    Object.Destroy(resource.gameObject);
+                    Object.Destroy(resource.GameObject);
                 }
 
                 _resources.Clear();

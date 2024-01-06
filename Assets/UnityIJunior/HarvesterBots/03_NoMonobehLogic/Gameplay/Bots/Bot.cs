@@ -6,14 +6,19 @@ namespace _03_NoMonobehLogic.Gameplay.Bots
 {
     public class Bot
     {
-        private BotMover _botMover;
+        private readonly GameObject _gameObject;
+        private readonly BotMover _botMover;
+        private readonly ColliderBehaviour _botColliderBehaviour;
         private Resource _target;
 
         public bool IsBusy { get; private set; }
 
-        public Bot()
+        public Bot(GameObject gameObject, MonoBehaviour coroutineRunner, Transform spawnPosition, CharacterController controller, ColliderBehaviour botColliderBehaviour)
         {
-            _botMover = new BotMover();
+            _gameObject = gameObject;
+            _botColliderBehaviour = botColliderBehaviour;
+            _botMover = new BotMover(coroutineRunner, gameObject, spawnPosition, controller);
+            _botColliderBehaviour.TriggerEnter += OnTriggerEnter;
         }
 
         private void OnTriggerEnter(Collider otherCollider)
@@ -26,36 +31,36 @@ namespace _03_NoMonobehLogic.Gameplay.Bots
         {
             _target = target;
             IsBusy = true;
-            _botMover.Move(_target.transform);
+            _botMover.Move(_target.Transform);
         }
 
         private void DetectResource(Collider other)
         {
-            if (other.TryGetComponent(out Resource resource) == false)
+            if (other.TryGetComponent(out ResourceView view) == false)
                 return;
 
-            if (resource != _target)
+            if (view.Resource != _target)
                 return;
 
             _target.Harvest();
-            Transform myTransform = transform;
-            Transform targetTransform = _target.transform;
+            Transform myTransform = _gameObject.transform;
+            Transform targetTransform = _target.Transform;
             targetTransform.parent = myTransform;
             Vector3 transformPosition = myTransform.position;
             targetTransform.position = new Vector3(transformPosition.x, 2, transformPosition.z);
-            _target.GetComponent<Rigidbody>().useGravity = false;
+            _target.Rigidbody.useGravity = false;
             _botMover.MoveToSpawnPosition();
         }
 
         private void DetectBase(Collider other)
         {
-            if (other.TryGetComponent(out Base botBase) == false)
+            if (other.TryGetComponent(out BaseView view) == false)
                 return;
 
             if (_target == null)
                 return;
 
-            botBase.AddResource(_target);
+            view.Base.AddResource(_target);
             _target = null;
             IsBusy = false;
         }
