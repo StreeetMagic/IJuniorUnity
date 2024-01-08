@@ -1,5 +1,5 @@
 ﻿using _02_DefaultWithFactory.Gameplay.Bases;
-using _02_DefaultWithFactory.Gameplay.Resourcess;
+using _02_DefaultWithFactory.Gameplay.Supplies;
 using UnityEngine;
 
 namespace _02_DefaultWithFactory.Gameplay.Bots
@@ -8,7 +8,7 @@ namespace _02_DefaultWithFactory.Gameplay.Bots
     public class Bot : MonoBehaviour
     {
         [SerializeField] private BotMover _botMover;
-        private Resource _target;
+        private Supply _target;
 
         public bool IsBusy { get; private set; }
 
@@ -23,7 +23,7 @@ namespace _02_DefaultWithFactory.Gameplay.Bots
             DetectBase(otherCollider);
         }
 
-        public void SetTarget(Resource target)
+        public void SetTarget(Supply target)
         {
             _target = target;
             IsBusy = true;
@@ -32,7 +32,7 @@ namespace _02_DefaultWithFactory.Gameplay.Bots
 
         private void DetectResource(Collider other)
         {
-            if (other.TryGetComponent(out Resource resource) == false)
+            if (other.TryGetComponent(out Supply resource) == false)
                 return;
 
             if (resource != _target)
@@ -43,7 +43,8 @@ namespace _02_DefaultWithFactory.Gameplay.Bots
             Transform targetTransform = _target.transform;
             targetTransform.parent = myTransform;
             Vector3 transformPosition = myTransform.position;
-            targetTransform.position = new Vector3(transformPosition.x, 2, transformPosition.z);
+            float offset = 2;
+            targetTransform.position = new Vector3(transformPosition.x, offset, transformPosition.z);
             _target.GetComponent<Rigidbody>().useGravity = false;
             _botMover.MoveToSpawnPosition();
         }

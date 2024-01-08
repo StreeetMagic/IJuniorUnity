@@ -1,6 +1,5 @@
-﻿using _03_NoMonobehLogic.Gameplay.Bases;
-using _03_NoMonobehLogic.Gameplay.Factories;
-using _03_NoMonobehLogic.Gameplay.Resourcess;
+﻿using _03_NoMonobehLogic.Gameplay.Factories;
+using _03_NoMonobehLogic.Gameplay.Supplies;
 using UnityEngine;
 
 namespace _03_NoMonobehLogic.Gameplay.Bots
@@ -12,7 +11,7 @@ namespace _03_NoMonobehLogic.Gameplay.Bots
         private readonly ColliderBehaviour _botColliderBehaviour;
         private readonly Factory _factory;
 
-        private Resource _target;
+        private Supply _target;
 
         public Bot(GameObject gameObject, MonoBehaviour coroutineRunner, Transform spawnPosition, CharacterController controller, ColliderBehaviour botColliderBehaviour, Factory factory)
         {
@@ -31,7 +30,7 @@ namespace _03_NoMonobehLogic.Gameplay.Bots
             DetectBase(otherCollider);
         }
 
-        public void SetTarget(Resource target)
+        public void SetTarget(Supply target)
         {
             _target = target;
             IsBusy = true;

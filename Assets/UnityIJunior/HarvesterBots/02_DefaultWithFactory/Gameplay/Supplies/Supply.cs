@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace _02_DefaultWithFactory.Gameplay.Resourcess
+namespace _02_DefaultWithFactory.Gameplay.Supplies
 {
-    public class Resource : MonoBehaviour
+    public class Supply : MonoBehaviour
     {
         public bool IsHarvested { get; private set; }
         public bool IsMarked { get; private set; }

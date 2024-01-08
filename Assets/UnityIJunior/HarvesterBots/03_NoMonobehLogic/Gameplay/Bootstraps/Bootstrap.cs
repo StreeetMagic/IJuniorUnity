@@ -15,7 +15,7 @@ namespace _03_NoMonobehLogic.Gameplay.Bootstraps
         [SerializeField] private GameObject _infoPanelPrefab;
         [SerializeField] private GameObject _goldTextPrefab;
         [SerializeField] private GameObject _resourceTextPrefab;
-        [SerializeField] private GameObject _sellResourceButton;
+        [SerializeField] private GameObject _sellSuppliesButtonPrefab;
 
         [SerializeField] private Transform _basePosition;
         [SerializeField] private List<Transform> _botsTransforms;
@@ -31,13 +31,13 @@ namespace _03_NoMonobehLogic.Gameplay.Bootstraps
                 _botPrefab,
                 _resourcePrefab,
                 _userInterfacePrefab,
-                _basePosition,
-                _botsTransforms,
-                this,
                 _infoPanelPrefab,
                 _goldTextPrefab,
                 _resourceTextPrefab,
-                _sellResourceButton);
+                _sellSuppliesButtonPrefab,
+                _basePosition,
+                _botsTransforms,
+                this);
 
             _game.Play();
         }

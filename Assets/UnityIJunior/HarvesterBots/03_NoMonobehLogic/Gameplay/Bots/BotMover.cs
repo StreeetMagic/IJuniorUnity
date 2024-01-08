@@ -32,8 +32,6 @@ namespace _03_NoMonobehLogic.Gameplay.Bots
                 _coroutineRunner.StopCoroutine(_movingCoroutine);
 
             _movingCoroutine = _coroutineRunner.StartCoroutine(Moving(position));
-            
-            Debug.Log("Я поехал");
         }
 
         private IEnumerator Moving(Transform targetTransform)

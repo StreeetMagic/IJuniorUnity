@@ -611,6 +611,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7416395144724831083, guid: 9c97fd1c8a8374b4a8e7163127869e8a, type: 3}
+      propertyPath: _supplyPrefab
+      value: 
+      objectReference: {fileID: 2061986240343712521, guid: bef27c2e1886f5a4187ab33ce5a9d6df, type: 3}
     - target: {fileID: 5470755522480989358, guid: 9c97fd1c8a8374b4a8e7163127869e8a, type: 3}
       propertyPath: m_Name
       value: Spawner

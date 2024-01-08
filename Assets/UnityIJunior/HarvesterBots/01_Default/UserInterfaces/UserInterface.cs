@@ -32,7 +32,7 @@ namespace _01_Default.UserInterfaces
 
         private void OnResourceCountChanged(int resources)
         {
-            _resourceCount.text = "Resources: " + resources;
+            _resourceCount.text = "Supplies: " + resources;
         }
 
         private void OnGoldCountChanged(int gold)

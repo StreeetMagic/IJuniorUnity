@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace _03_NoMonobehLogic.Gameplay.Resourcess
+namespace _03_NoMonobehLogic.Gameplay.Supplies
 {
-    public class Resource
+    public class Supply
     {
-        public Resource(GameObject gameObject)
+        public Supply(GameObject gameObject)
         {
             GameObject = gameObject;
         }

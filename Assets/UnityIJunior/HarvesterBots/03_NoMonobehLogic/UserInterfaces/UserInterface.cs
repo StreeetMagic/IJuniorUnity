@@ -1,7 +1,7 @@
 ﻿using _03_NoMonobehLogic.Gameplay.Bases;
 using _03_NoMonobehLogic.UserInterfaces.InfoPanels.GoldTexts;
 using _03_NoMonobehLogic.UserInterfaces.InfoPanels.ResourceTexts;
-using _03_NoMonobehLogic.UserInterfaces.InfoPanels.SellResourceButtons;
+using _03_NoMonobehLogic.UserInterfaces.InfoPanels.SellSuppliesButtons;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,7 +47,7 @@ namespace _03_NoMonobehLogic.UserInterfaces
         private void CreateSellResourceButton(Base botBase, GameObject sellResourceButton, Canvas cavnas)
         {
             GameObject sellResourceButtonGameObject = Object.Instantiate(sellResourceButton, cavnas.transform);
-            new SellResourceButton(sellResourceButtonGameObject.GetComponent<Button>(), botBase);
+            new SellSuppliesButton(sellResourceButtonGameObject.GetComponent<Button>(), botBase);
         }
     }
 }

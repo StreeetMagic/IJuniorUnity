@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using _02_DefaultWithFactory.Gameplay.Resourcess;
+using _02_DefaultWithFactory.Gameplay.Supplies;
 using UnityEngine;
 
 namespace _02_DefaultWithFactory.Gameplay.Scanners
@@ -12,19 +12,19 @@ namespace _02_DefaultWithFactory.Gameplay.Scanners
         private readonly WaitForSeconds _waitForSeconds = new(1f);
         private readonly float _radius = 100f;
 
-        public event Action<List<Resource>> Scanned;
+        public event Action<List<Supply>> Scanned;
 
         private void Start() =>
-            StartCoroutine(Scanning(new List<Resource>()));
+            StartCoroutine(Scanning(new List<Supply>()));
 
-        private IEnumerator Scanning(List<Resource> resources)
+        private IEnumerator Scanning(List<Supply> resources)
         {
             while (_isScanning)
             {
                 yield return _waitForSeconds;
 
                 foreach (Collider collider1 in Physics.OverlapSphere(transform.position, _radius))
-                    if (collider1.TryGetComponent(out Resource resource))
+                    if (collider1.TryGetComponent(out Supply resource))
                         resources.Add(resource);
 
                 Scanned?.Invoke(resources);

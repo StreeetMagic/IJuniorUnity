@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using _03_NoMonobehLogic.Gameplay.Factories;
-using _03_NoMonobehLogic.Gameplay.Resourcess;
+using _03_NoMonobehLogic.Gameplay.Supplies;
 using UnityEngine;
 
 namespace _03_NoMonobehLogic.Gameplay.Scanners
@@ -15,7 +15,7 @@ namespace _03_NoMonobehLogic.Gameplay.Scanners
         private readonly float _radius = 100f;
         private readonly Factory _factory;
 
-        public event Action<List<Resource>> Scanned;
+        public event Action<List<Supply>> Scanned;
 
         public Scanner(GameObject gameObject, Factory factory)
         {
@@ -32,7 +32,7 @@ namespace _03_NoMonobehLogic.Gameplay.Scanners
         {
             while (_isScanning)
             {
-                List<Resource> resources = new();
+                List<Supply> resources = new();
 
                 yield return _waitForSeconds;
 

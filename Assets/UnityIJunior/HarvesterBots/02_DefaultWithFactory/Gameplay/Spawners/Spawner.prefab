@@ -2278,7 +2278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnPointContainer: {fileID: 5443567558860139674}
-  _resourcePrefab: {fileID: 5264418746333912663, guid: 86fdbf0ac8bd16c458c0b277df67a2c9, type: 3}
+  _supplyPrefab: {fileID: 5264418746333912663, guid: 86fdbf0ac8bd16c458c0b277df67a2c9, type: 3}
 --- !u!1 &5494669861582348474
 GameObject:
   m_ObjectHideFlags: 0
