@@ -1,4 +1,5 @@
 ﻿using _03_NoMonobehLogic.Gameplay.Bases;
+using _03_NoMonobehLogic.Gameplay.Factories;
 using _03_NoMonobehLogic.Gameplay.Resourcess;
 using UnityEngine;
 
@@ -9,17 +10,20 @@ namespace _03_NoMonobehLogic.Gameplay.Bots
         private readonly GameObject _gameObject;
         private readonly BotMover _botMover;
         private readonly ColliderBehaviour _botColliderBehaviour;
+        private readonly Factory _factory;
+
         private Resource _target;
 
-        public bool IsBusy { get; private set; }
-
-        public Bot(GameObject gameObject, MonoBehaviour coroutineRunner, Transform spawnPosition, CharacterController controller, ColliderBehaviour botColliderBehaviour)
+        public Bot(GameObject gameObject, MonoBehaviour coroutineRunner, Transform spawnPosition, CharacterController controller, ColliderBehaviour botColliderBehaviour, Factory factory)
         {
             _gameObject = gameObject;
             _botColliderBehaviour = botColliderBehaviour;
+            _factory = factory;
             _botMover = new BotMover(coroutineRunner, gameObject, spawnPosition, controller);
             _botColliderBehaviour.TriggerEnter += OnTriggerEnter;
         }
+
+        public bool IsBusy { get; private set; }
 
         private void OnTriggerEnter(Collider otherCollider)
         {
@@ -36,10 +40,10 @@ namespace _03_NoMonobehLogic.Gameplay.Bots
 
         private void DetectResource(Collider other)
         {
-            if (other.TryGetComponent(out ResourceView view) == false)
+            if (_factory.Resources.ContainsKey(other.gameObject) == false)
                 return;
 
-            if (view.Resource != _target)
+            if (_factory.Resources[other.gameObject] != _target)
                 return;
 
             _target.Harvest();
@@ -54,13 +58,13 @@ namespace _03_NoMonobehLogic.Gameplay.Bots
 
         private void DetectBase(Collider other)
         {
-            if (other.TryGetComponent(out BaseView view) == false)
-                return;
-
             if (_target == null)
                 return;
+            
+            if (_factory.Bases.ContainsKey(other.gameObject) == false)
+                return;
 
-            view.Base.AddResource(_target);
+            _factory.Bases[other.gameObject].AddResource(_target);
             _target = null;
             IsBusy = false;
         }

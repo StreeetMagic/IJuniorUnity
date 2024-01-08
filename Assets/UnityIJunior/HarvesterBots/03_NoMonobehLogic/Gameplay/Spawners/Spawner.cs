@@ -1,24 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using _03_NoMonobehLogic.Gameplay.Resourcess;
+using _03_NoMonobehLogic.Gameplay.Factories;
 using UnityEngine;
 
 namespace _03_NoMonobehLogic.Gameplay.Spawners
 {
     public class Spawner
     {
-        private GameObject _resourcePrefab;
-
-        private List<Vector3> _spawnPoints = new();
+        private readonly GameObject _resourcePrefab;
         private readonly WaitForSeconds _waitForSeconds = new(0.5f);
         private readonly bool _isSpawning = true;
         private readonly GameObject _gameObject;
+        private readonly Factory _factory;
 
-        public Spawner(GameObject gameObject, GameObject resourcePrefab)
+        private List<Vector3> _spawnPoints = new();
+
+        public Spawner(GameObject gameObject, GameObject resourcePrefab, Factory factory)
         {
             _gameObject = gameObject;
             _resourcePrefab = resourcePrefab;
+            _factory = factory;
             SetPositions();
         }
 
@@ -32,11 +34,8 @@ namespace _03_NoMonobehLogic.Gameplay.Spawners
             while (_isSpawning)
             {
                 yield return _waitForSeconds;
-
-                GameObject resource = Object.Instantiate(_resourcePrefab, _spawnPoints[Random.Range(0, _spawnPoints.Count)], Quaternion.identity);
-                Resource resource1 = new Resource(resource);
-                resource.GetComponent<ResourceView>().Resource = resource1;
-                resource.transform.parent = _gameObject.transform;
+                
+                _factory.CreateResource(_resourcePrefab, _spawnPoints, _gameObject);
             }
         }
 

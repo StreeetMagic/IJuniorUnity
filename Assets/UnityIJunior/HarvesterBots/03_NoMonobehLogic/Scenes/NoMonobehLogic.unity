@@ -385,6 +385,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2055026773323839525, guid: a44bb356e86c88849905663e87f0a47a, type: 3}
+      propertyPath: _resourceTextPrefab
+      value: 
+      objectReference: {fileID: 7395278539110701924, guid: c95377d8f6f58c54b8f764c35cabdce4, type: 3}
+    - target: {fileID: -2055026773323839525, guid: a44bb356e86c88849905663e87f0a47a, type: 3}
+      propertyPath: _sellResourceButton
+      value: 
+      objectReference: {fileID: 7075181321380136440, guid: 9565aff6e502e9246b92a205776d6f91, type: 3}
     - target: {fileID: 5349887723098742947, guid: a44bb356e86c88849905663e87f0a47a, type: 3}
       propertyPath: m_Name
       value: BootsTrap

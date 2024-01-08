@@ -54,6 +54,8 @@ MonoBehaviour:
   _botPrefab: {fileID: 820725947985531644, guid: 0bf7ecb4a4ad10142aa4007f89095cd5, type: 3}
   _resourcePrefab: {fileID: 1912441390367859400, guid: 76ff7f5212f275c4aa975931cf29fd98, type: 3}
   _userInterfacePrefab: {fileID: 3927441812250091472, guid: bd138f5673f176d4eba003e70336237c, type: 3}
+  _infoPanelPrefab: {fileID: 7240120036253435003, guid: e1d3ae43ac3eeba459fd51e6874525ee, type: 3}
+  _goldTextPrefab: {fileID: 2644160066122318771, guid: e1ade74b79133be4ab35ccdc88c4a618, type: 3}
   _basePosition: {fileID: 8643883464471871024}
   _botsTransforms:
   - {fileID: 2054842509377306558}

@@ -1,49 +1,53 @@
 ﻿using _03_NoMonobehLogic.Gameplay.Bases;
+using _03_NoMonobehLogic.UserInterfaces.InfoPanels.GoldTexts;
+using _03_NoMonobehLogic.UserInterfaces.InfoPanels.ResourceTexts;
+using _03_NoMonobehLogic.UserInterfaces.InfoPanels.SellResourceButtons;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace _03_NoMonobehLogic.UserInterfaces
 {
-    public class UserInterface : MonoBehaviour
+    public class UserInterface
     {
-        [SerializeField] private TextMeshProUGUI _resourceCount;
-        [SerializeField] private TextMeshProUGUI _goldCount;
-        [SerializeField] private Button _sellButton;
-
-        private Base _base;
-
-        public void Init(Base base1)
+        public UserInterface(
+            Base botBase,
+            GameObject gameObject,
+            GameObject infoPanelPrefab,
+            GameObject goldTextPrefab,
+            GameObject resourceTextPrefab,
+            GameObject sellResourceButton)
         {
-            _base = base1;
-            OnResourceCountChanged(_base.ResourcesCount);
-            OnGoldCountChanged(_base.Gold);
-
-            _base.ResourceCountChanged += OnResourceCountChanged;
-            _base.GoldCountChanged += OnGoldCountChanged;
-            _sellButton.onClick.AddListener(OnSellButton);
+            Canvas cavnas = CreateCavnas(gameObject, infoPanelPrefab, out Transform infoPanelTransform);
+            CreateGoldText(botBase, goldTextPrefab, infoPanelTransform);
+            CreateResourceText(botBase, resourceTextPrefab, infoPanelTransform);
+            CreateSellResourceButton(botBase, sellResourceButton, cavnas);
         }
 
-        private void OnDestroy()
+        private Canvas CreateCavnas(GameObject gameObject, GameObject infoPanelPrefab, out Transform infoPanelTransform)
         {
-            _base.ResourceCountChanged -= OnResourceCountChanged;
-            _base.GoldCountChanged -= OnGoldCountChanged;
-            _sellButton.onClick.RemoveListener(OnSellButton);
+            var cavnas = gameObject.GetComponentInChildren<Canvas>();
+            GameObject infoPanelGameObject = Object.Instantiate(infoPanelPrefab, cavnas.transform);
+            infoPanelTransform = infoPanelGameObject.transform;
+            return cavnas;
         }
 
-        private void OnResourceCountChanged(int resources)
+        private void CreateGoldText(Base botBase, GameObject goldTextPrefab, Transform infoPanelTransform)
         {
-            _resourceCount.text = "Resources: " + resources;
+            GameObject goldTextGameObject = Object.Instantiate(goldTextPrefab, infoPanelTransform);
+            new GoldText(botBase, goldTextGameObject.GetComponent<TextMeshProUGUI>());
         }
 
-        private void OnGoldCountChanged(int gold)
+        private void CreateResourceText(Base botBase, GameObject resourceTextPrefab, Transform infoPanelTransform)
         {
-            _goldCount.text = "Gold: " + gold;
+            GameObject resourceTextGameObject = Object.Instantiate(resourceTextPrefab, infoPanelTransform);
+            new ResourceText(botBase, resourceTextGameObject.GetComponent<TextMeshProUGUI>());
         }
 
-        private void OnSellButton()
+        private void CreateSellResourceButton(Base botBase, GameObject sellResourceButton, Canvas cavnas)
         {
-            _base.SellResources();
+            GameObject sellResourceButtonGameObject = Object.Instantiate(sellResourceButton, cavnas.transform);
+            new SellResourceButton(sellResourceButtonGameObject.GetComponent<Button>(), botBase);
         }
     }
 }

@@ -30,7 +30,6 @@ namespace _03_NoMonobehLogic.Gameplay.Bases
             _bots = bots;
             _gameObject = gameObject;
             _scanner.Scanned += OnScanned;
-            Debug.Log("подписался");
         }
 
         public void Update()
@@ -45,7 +44,6 @@ namespace _03_NoMonobehLogic.Gameplay.Bases
         {
             foreach (Bot bot in bots)
             {
-                Debug.Log("Ставлю цель боту");
                 bot.SetTarget(_targets[0]);
                 _targets[0].Mark();
                 _targets.RemoveAt(0);
@@ -57,7 +55,6 @@ namespace _03_NoMonobehLogic.Gameplay.Bases
 
         private void OnScanned(List<Resource> scannedResources)
         {
-            Debug.Log("Обрабатываю скан");
             AddResourcesToHarvest(scannedResources);
         }
 

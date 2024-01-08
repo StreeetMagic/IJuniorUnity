@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
-using _03_NoMonobehLogic.Gameplay.Bases;
-using _03_NoMonobehLogic.Gameplay.Bots;
-using _03_NoMonobehLogic.Gameplay.Scanners;
-using _03_NoMonobehLogic.Gameplay.Spawners;
-using _03_NoMonobehLogic.UserInterfaces;
+using _03_NoMonobehLogic.Gameplay.Factories;
 using UnityEngine;
 
 namespace _03_NoMonobehLogic.Gameplay.Games
@@ -16,13 +12,15 @@ namespace _03_NoMonobehLogic.Gameplay.Games
         private readonly GameObject _botPrefab;
         private readonly GameObject _resourcePrefab;
         private readonly GameObject _userInterfacePrefab;
+        private readonly GameObject _infoPanelPrefab;
+        private readonly GameObject _goldTextPrefab;
+        private readonly GameObject _resourceTextPrefab;
+        private readonly GameObject _sellResourceButton;
+
         private readonly Transform _basePosition;
         private readonly List<Transform> _botsTransforms;
         private readonly MonoBehaviour _coroutineRunner;
-
-        private Scanner _scanner;
-        private Base _base;
-        private List<Bot> _bots;
+        private readonly Factory _factory = new();
 
         public Game(
             GameObject spawnerPrefab,
@@ -33,7 +31,11 @@ namespace _03_NoMonobehLogic.Gameplay.Games
             GameObject userInterfacePrefab,
             Transform basePosition,
             List<Transform> botsTransforms,
-            MonoBehaviour coroutineRunner)
+            MonoBehaviour coroutineRunner,
+            GameObject infoPanelPrefab,
+            GameObject goldTextPrefab,
+            GameObject resourceTextPrefab,
+            GameObject sellResourceButton)
         {
             _spawnerPrefab = spawnerPrefab;
             _scannerPrefab = scannerPrefab;
@@ -44,67 +46,24 @@ namespace _03_NoMonobehLogic.Gameplay.Games
             _basePosition = basePosition;
             _botsTransforms = botsTransforms;
             _coroutineRunner = coroutineRunner;
+            _infoPanelPrefab = infoPanelPrefab;
+            _goldTextPrefab = goldTextPrefab;
+            _resourceTextPrefab = resourceTextPrefab;
+            _sellResourceButton = sellResourceButton;
         }
 
-        public void Launch()
+        public void Play()
         {
-            LaunchSpawner();
-            LaunchScanner();
-            LaunchBots();
-            LaunchBase();
-            LaunchUserInterface();
+            _factory.CreateSpawner(_spawnerPrefab, _resourcePrefab, _coroutineRunner);
+            _factory.CreateScanner(_scannerPrefab, _coroutineRunner);
+            _factory.CreateBots(_botPrefab, _botsTransforms, _coroutineRunner);
+            _factory.CreateBase(_basePrefab, _basePosition);
+            _factory.CreateUserInterface(_userInterfacePrefab, _infoPanelPrefab, _goldTextPrefab, _resourceTextPrefab, _sellResourceButton);
         }
 
         public void Update()
         {
-            _base.Update();
-        }
-
-        private void LaunchSpawner()
-        {
-            GameObject spawnerGameObject = Object.Instantiate(_spawnerPrefab);
-            var spawner = new Spawner(spawnerGameObject, _resourcePrefab);
-            spawner.Spawn(_coroutineRunner);
-        }
-
-        private void LaunchScanner()
-        {
-            GameObject scannerGameObject = Object.Instantiate(_scannerPrefab);
-            _scanner = new Scanner(scannerGameObject);
-            _scanner.Launch(_coroutineRunner);
-        }
-
-        private void LaunchBots()
-        {
-            _bots = new List<Bot>();
-
-            for (int i = 0; i < _botsTransforms.Count; i++)
-            {
-                GameObject botGameObject = Object.Instantiate(_botPrefab, _botsTransforms[i].position, _botsTransforms[i].rotation, _botsTransforms[i]);
-                botGameObject.name = $"Bot {i}";
-
-                var characterController = botGameObject.GetComponent<CharacterController>();
-                var colliderBehaviour = botGameObject.GetComponent<ColliderBehaviour>();
-
-                Transform spawnPosition = _botsTransforms[i];
-
-                var bot = new Bot(botGameObject, _coroutineRunner, spawnPosition, characterController, colliderBehaviour);
-
-                _bots.Add(bot);
-            }
-        }
-
-        private void LaunchBase()
-        {
-            GameObject baseGameObject = Object.Instantiate(_basePrefab, _basePosition.position, _basePosition.rotation);
-            _base = new Base(_scanner, _bots, baseGameObject);
-            baseGameObject.GetComponent<BaseView>().Base = _base;
-        }
-
-        private void LaunchUserInterface()
-        {
-            GameObject userInterfaceGameObject = Object.Instantiate(_userInterfacePrefab);
-            userInterfaceGameObject.GetComponent<UserInterface>().Init(_base);
+            _factory.BotBase.Update();
         }
     }
 }
